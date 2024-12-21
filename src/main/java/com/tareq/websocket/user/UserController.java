@@ -1,15 +1,11 @@
 package com.tareq.websocket.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,9 +30,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDto> userLogin(@RequestBody UserLoginDto userLoginDto){
-        var loginResponse = mapper.toUserLoginResponseDto(userService.userLogin(userLoginDto));
+    public ResponseEntity<LoginResponse> userLogin(@RequestBody LoginRequest loginRequest){
+        var loginResponse = mapper.toUserLoginResponseDto(userService.userLogin(loginRequest));
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponse> userLogout(@RequestBody LogoutRequest logoutRequest){
+        return ResponseEntity.ok(userService.userLogout(logoutRequest));
     }
 
     @GetMapping("/user")

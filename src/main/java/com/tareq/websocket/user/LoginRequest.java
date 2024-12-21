@@ -1,6 +1,6 @@
 package com.tareq.websocket.user;
 
-public record UserLoginDto(
+public record LoginRequest(
         String email,
         String password
 ) {

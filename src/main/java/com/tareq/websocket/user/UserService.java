@@ -1,7 +1,7 @@
 package com.tareq.websocket.user;
 
+import com.tareq.websocket.util.Status;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +16,26 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User userLogin(UserLoginDto userLoginDto){
-        return userRepository.findByEmailAndPassword(userLoginDto.email(), userLoginDto.password()).orElse(null);
+    public User userLogin(LoginRequest loginRequest){
+        return userRepository.findByEmailAndPassword(loginRequest.email(), loginRequest.password())
+                .map(user -> {user.setOnline(true);
+                    userRepository.save(user) ;
+                    return user;
+                })
+                .orElse(null);
+    }
+
+    public LogoutResponse userLogout(LogoutRequest logoutRequest){
+        var user = userRepository.findById(logoutRequest.id()).orElse(null);
+        if(user != null){
+            user.setOnline(false);
+            userRepository.save(user);
+            return new LogoutResponse(user.getId(), user.getEmail(),user.getName(), Status.SUCCESS);
+        }else{
+            return new LogoutResponse(logoutRequest.id(), logoutRequest.email(), logoutRequest.name(),
+                    Status.FAIL);
+        }
+        // perform other task that should be executed while logout.
     }
 
     public List<User> findAllUser() {

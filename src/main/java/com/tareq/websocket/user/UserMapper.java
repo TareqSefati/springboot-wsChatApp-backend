@@ -1,6 +1,5 @@
 package com.tareq.websocket.user;
 
-import org.apache.catalina.startup.UserConfig;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,11 +8,11 @@ public class UserMapper {
         return new UserCreatedResponse(status, user.getName(), user.getEmail());
     }
 
-    public UserLoginResponseDto toUserLoginResponseDto(User user) {
+    public LoginResponse toUserLoginResponseDto(User user) {
         if(user == null){
             user = new User("","","","","","","",false,false);
         }
-        return new UserLoginResponseDto(
+        return new LoginResponse(
                 user.getId(),
                 user.getName(),
                 user.getImgUrl(),

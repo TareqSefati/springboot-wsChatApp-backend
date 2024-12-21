@@ -1,6 +1,6 @@
 package com.tareq.websocket.user;
 
-public record UserLoginResponseDto(
+public record LoginResponse(
         String id,
         String name,
         String imgUrl,
