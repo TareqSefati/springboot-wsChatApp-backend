@@ -45,6 +45,11 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllUser());
     }
 
+    @GetMapping("/user/onlineStatus/{status}")
+    public ResponseEntity<List<User>> allUserByOnlineStatus(@PathVariable boolean status){
+        return ResponseEntity.ok(userService.findAllUserByOnlineStatus(status));
+    }
+
     @GetMapping("/user/id/{id}")
     public ResponseEntity<User> userById(@PathVariable String id){
         var user = userService.findUserById(id);
